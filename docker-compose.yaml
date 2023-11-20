@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+    app:
+        build:
+            context: .
+        volumes:
+            - .:/scraper
+        command:
+            - /bin/sh
+            - -c
+            - |
+              /usr/local/bin/pip3 install requests bs4
+              /usr/local/bin/python3 scrape-reddit.py
