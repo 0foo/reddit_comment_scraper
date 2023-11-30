@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import util
 from util import Comment, Reddit
 
-
+print("Starting Script")
 # type hints
 comment: Comment
 reddit: Reddit
@@ -32,7 +32,10 @@ def get_page_comment_list(url):
     comment_page_info = reddit.fetch_reddit_page(url)
     print(comment_page_info["status_code"], " : ", comment_page_info["url"])
     soup = comment_page_info["soup"]
+
+
     local_comment_list = reddit.fetch_full_comment_page_as_list(soup)
+
 
     def thread_func(comment):
         context_page_info = reddit.fetch_reddit_page(comment.comment_context_link)

@@ -2,9 +2,14 @@ import requests, os
 from bs4 import BeautifulSoup
 
 
+
 # this header needed so that reddit doesn't rate limit as a bot!
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+}
+
+cookies={
+    "over18": "1"
 }
 
 def delete_file(file_path):
@@ -31,7 +36,7 @@ class Reddit:
     # will return the comments as a list of comment objects
     def fetch_full_comment_page_as_list(self, soup) -> list:
         comments = soup.find_all(class_="thing")
-
+        print(f"Found {len(comments)} comments")
         if not comments:
             return None
         
@@ -81,9 +86,12 @@ class Reddit:
 
     def fetch_reddit_page(self, url) -> BeautifulSoup:
         global headers
-        response  = requests.get(url, headers=headers)
+        global cookies
+        response  = requests.get(url, cookies=cookies, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
         return {
-            "soup": BeautifulSoup(response.text, 'html.parser'), 
+            "soup": soup, 
             "status_code": response.status_code,
             "url":url
         }
@@ -95,12 +103,22 @@ class Reddit:
         return None
         
 
-# def hash_page(self, item_list):
-#     item_list.sort()
-#     y = str(item_list)
-#     z = re.sub('[^a-zA-Z]+', '', y).strip()
-#     # print(z)
-#     # print(len(z))
-#     the_hash = hash(z)
-#     # print(the_hash)
-#     return the_hash
+    # def confirm_18(self, url):
+    #     global headers
+    #     # Create a session object to maintain cookies
+    #     session = requests.Session()
+    #     # First, get the page to obtain any required cookies and tokens
+    #     response = session.get(url)
+    #     # Form data to be submitted
+    #     data = {
+    #         'over18': 'yes'
+    #     }
+    #     url=f"https://old.reddit.com/over18?dest={parse(url)}"
+    #     # Send a POST request to submit the form
+    #     response = session.post(url, data=data, headers=headers)
+    #     soup = BeautifulSoup(response.text, 'html.parser')
+
+    #     with open("file.html", "w") as file_handle:
+    #         file_handle.write(soup.prettify())
+    #     exit()
+    #     return response
