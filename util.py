@@ -101,24 +101,4 @@ class Reddit:
         if next_button:
             return next_button.a.get("href")
         return None
-        
 
-    # def confirm_18(self, url):
-    #     global headers
-    #     # Create a session object to maintain cookies
-    #     session = requests.Session()
-    #     # First, get the page to obtain any required cookies and tokens
-    #     response = session.get(url)
-    #     # Form data to be submitted
-    #     data = {
-    #         'over18': 'yes'
-    #     }
-    #     url=f"https://old.reddit.com/over18?dest={parse(url)}"
-    #     # Send a POST request to submit the form
-    #     response = session.post(url, data=data, headers=headers)
-    #     soup = BeautifulSoup(response.text, 'html.parser')
-
-    #     with open("file.html", "w") as file_handle:
-    #         file_handle.write(soup.prettify())
-    #     exit()
-    #     return response
